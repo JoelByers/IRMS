@@ -7,6 +7,12 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <TabControl>
+            <TabItem Header="Tab1" Grid.Column="5">
+                <Label Content="Content goes here..." />
+            </TabItem>
+            <TabItem Header="Tab2" Grid.Column="5"/>
+            <TabItem Header="Tab3" Grid.Column="5"/>
+        </TabControl>
     </Grid>
 </Window>
