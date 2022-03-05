@@ -7,12 +7,20 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TabControl>
-            <TabItem Header="Tab1" Grid.Column="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <TabControl  Grid.Column="1" Grid.Row="0">
+            <TabItem Header="Tab1">
                 <Label Content="Content goes here..." />
             </TabItem>
-            <TabItem Header="Tab2" Grid.Column="5"/>
-            <TabItem Header="Tab3" Grid.Column="5"/>
+            <TabItem Header="Tab2"/>
+            <TabItem Header="Tab3"/>
         </TabControl>
     </Grid>
 </Window>
