@@ -24,5 +24,24 @@ namespace IRMS
         {
             InitializeComponent();
         }
+
+        public void OnMenuClick(object sender, RoutedEventArgs e)
+        {
+            if(sidebar.Visibility == System.Windows.Visibility.Collapsed)
+            {
+                sidebar.Visibility = System.Windows.Visibility.Visible;
+                tabs.SetValue(Grid.ColumnProperty, 1);
+            }
+            else
+            {
+                sidebar.Visibility = System.Windows.Visibility.Collapsed;
+                tabs.SetValue(Grid.ColumnProperty, 0);
+            }
+        }
+
+        public void OnNotificationClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

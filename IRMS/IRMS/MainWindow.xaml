@@ -8,14 +8,26 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="130"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <TabControl  Grid.Column="1" Grid.Row="0">
+        <Button Name="menuBtn" Click="OnMenuClick" ClickMode="Press" Width="50" Height="50" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,0,0" Background="Transparent" BorderBrush="Transparent">
+            <Image Source="\Assets\menuIcon.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
+        </Button>
+        <Button Name="notificationBtn" Click="OnNotificationClick" ClickMode="Press" Width="50" Height="50" Grid.Column="0" HorizontalAlignment="Left" Margin="70,0,0,0" Background="Transparent" BorderBrush="Transparent">
+            <Image Source="\Assets\notificationIcon.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
+        </Button>
+        <Rectangle Name="sidebar" Width="auto" Height="auto"  Grid.Column="0" Grid.Row="1" Visibility="Collapsed" Fill="RoyalBlue"/>
+        <TabControl Name ="tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <TabControl.Resources>
+                <Style TargetType="TabPanel">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                </Style>
+            </TabControl.Resources>
             <TabItem Header="Tab1">
                 <Label Content="Content goes here..." />
             </TabItem>
