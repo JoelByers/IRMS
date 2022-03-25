@@ -43,5 +43,19 @@ namespace IRMS
         {
 
         }
+
+        public void Menu1Click(object sender, RoutedEventArgs e)
+        {
+            //Set Menu1Tab to Visible or Collased
+
+            if(reservationTab.Visibility == System.Windows.Visibility.Collapsed)
+            {
+                reservationTab.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                reservationTab.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
     }
 }

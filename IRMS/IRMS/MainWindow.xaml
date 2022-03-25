@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IRMS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Background="RoyalBlue">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="130"></ColumnDefinition>
@@ -21,18 +21,19 @@
         <Button Name="notificationBtn" Click="OnNotificationClick" ClickMode="Press" Width="50" Height="50" Grid.Column="0" HorizontalAlignment="Left" Margin="70,0,0,0" Background="Transparent" BorderBrush="Transparent">
             <Image Source="\Assets\notificationIcon.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
         </Button>
-        <Rectangle Name="sidebar" Width="auto" Height="auto"  Grid.Column="0" Grid.Row="1" Visibility="Collapsed" Fill="RoyalBlue"/>
+        <Rectangle Name="sidebar" Width="auto" Height="auto"  Grid.Column="0" Grid.Row="1" Visibility="Collapsed" Fill="Yellow"/>
+        <Button Name="menu1" Click="Menu1Click" ClickMode="Press" Width="75" Height="30" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="0,-250,0,0" Background="Red" BorderBrush="Red">
+            Menu 1
+        </Button>
         <TabControl Name ="tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TabControl.Resources>
                 <Style TargetType="TabPanel">
                     <Setter Property="HorizontalAlignment" Value="Right"/>
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Tab1">
+            <TabItem Name="reservationTab" Header="Reservations" Visibility="Collapsed">
                 <Label Content="Content goes here..." />
             </TabItem>
-            <TabItem Header="Tab2"/>
-            <TabItem Header="Tab3"/>
         </TabControl>
     </Grid>
 </Window>
