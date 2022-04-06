@@ -13,18 +13,23 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
+
         <Button Name="menuBtn" Click="OnMenuClick" ClickMode="Press" Width="50" Height="50" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,0,0" Background="Transparent" BorderBrush="Transparent">
             <Image Source="\Assets\menuIcon.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
         </Button>
+
         <Button Name="notificationBtn" Click="OnNotificationClick" ClickMode="Press" Width="50" Height="50" Grid.Column="0" HorizontalAlignment="Left" Margin="70,0,0,0" Background="Transparent" BorderBrush="Transparent">
             <Image Source="\Assets\notificationIcon.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
         </Button>
+
         <Rectangle Name="sidebar" Width="auto" Height="auto"  Grid.Column="0" Grid.Row="1" Visibility="Collapsed" Fill="Yellow"/>
-        <Button Name="menu1" Click="Menu1Click" ClickMode="Press" Width="75" Height="30" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Margin="0,-250,0,0" Background="Red" BorderBrush="Red">
+
+        <Button Name="menu1" Click="Menu1Click" ClickMode="Press" Width="75" Height="30" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0" Background="Red" BorderBrush="Red">
             Menu 1
         </Button>
+
         <TabControl Name ="tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TabControl.Resources>
                 <Style TargetType="TabPanel">
@@ -32,7 +37,128 @@
                 </Style>
             </TabControl.Resources>
             <TabItem Name="reservationTab" Header="Reservations" Visibility="Collapsed">
-                <Label Content="Content goes here..." />
+                <TabItem.Content>
+                    <Grid Visibility="{Binding ElementName=reservationTab, Path=Visibility}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="200"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                                <ColumnDefinition Width="70"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="6:00" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0"></TextBlock>
+                            <Separator Grid.Column="1" Grid.Row="0">
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="7:00" HorizontalAlignment="Center" Grid.Column="2" Grid.Row="0"></TextBlock>
+                            <Separator Grid.Column="3" Grid.Row="0">
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="8:00" HorizontalAlignment="Center" Grid.Column="4" Grid.Row="0"></TextBlock>
+                            <Separator Grid.Column="5" Grid.Row="0">
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="9:00" HorizontalAlignment="Center" Grid.Column="6" Grid.Row="0"></TextBlock>
+                            <Separator Grid.Column="7" Grid.Row="0">
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="10:00" HorizontalAlignment="Center" Grid.Column="8" Grid.Row="0"></TextBlock>
+                            <Separator Grid.Column="9" Grid.Row="0">
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="11:00" HorizontalAlignment="Center" Grid.Column="10" Grid.Row="0"></TextBlock>
+                            <Separator Grid.Column="11" Grid.Row="0">
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="12:00" HorizontalAlignment="Center" Grid.Column="12" Grid.Row="0"></TextBlock>
+                            <Button x:Name="RsvtnBtnTime1" Grid.Column="0" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center">50</Button>
+                            <Button x:Name="RsvtnBtnTime2" Grid.Column="2" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime3" Grid.Column="4" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime4" Grid.Column="6" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime5" Grid.Column="8" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime6" Grid.Column="10" Grid.Row="1" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime7" Grid.Column="12" Grid.Row="1" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                        </Grid>
+
+                        <!--UniformGrid Margin="10,0,0,0" Columns="13" Rows="1" Grid.Row="0">
+                            <TextBlock Text="6:00" HorizontalAlignment="Center"></TextBlock>
+                            <Separator>
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="7:00" HorizontalAlignment="Center"></TextBlock>
+                            <Separator>
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="8:00" HorizontalAlignment="Center"></TextBlock>
+                            <Separator>
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="9:00" HorizontalAlignment="Center"></TextBlock>
+                            <Separator>
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="10:00" HorizontalAlignment="Center"></TextBlock>
+                            <Separator>
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="11:00" HorizontalAlignment="Center"></TextBlock>
+                            <Separator>
+                                <Separator.LayoutTransform>
+                                    <RotateTransform Angle="90" />
+                                </Separator.LayoutTransform>
+                            </Separator>
+                            <TextBlock Text="12:00" HorizontalAlignment="Center"></TextBlock>
+                        </>
+                        <UniformGrid Columns="7" Margin="20,0,0,0" Grid.Row="1">
+                            <Button x:Name="RsvtnBtnTime1" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime2" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime3" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime4" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime5" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime6" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                            <Button x:Name="RsvtnBtnTime7" Width="70" Height="70" VerticalAlignment="Top">50</Button>
+                        </UniformGrid-->
+                    </Grid>
+                </TabItem.Content>
             </TabItem>
         </TabControl>
     </Grid>
