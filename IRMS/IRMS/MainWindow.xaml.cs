@@ -23,6 +23,10 @@ namespace IRMS
         public MainWindow()
         {
             InitializeComponent();
+
+            Reservation res = new Reservation("Bob", "123-456-7890","10:00", "10:15", 4);
+
+            ReservationGrid.Items.Add(res);
         }
 
         public void OnMenuClick(object sender, RoutedEventArgs e)

@@ -40,10 +40,10 @@
                 <TabItem.Content>
                     <Grid Visibility="{Binding ElementName=reservationTab, Path=Visibility}">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="200"></RowDefinition>
+                            <RowDefinition Height="100"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
+                        <Grid Grid.Row="0" Margin="30, 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="70"></ColumnDefinition>
                                 <ColumnDefinition Width="70"></ColumnDefinition>
@@ -108,55 +108,29 @@
                             <Button x:Name="RsvtnBtnTime6" Grid.Column="10" Grid.Row="1" Width="70" Height="70" VerticalAlignment="Top">50</Button>
                             <Button x:Name="RsvtnBtnTime7" Grid.Column="12" Grid.Row="1" Width="70" Height="70" VerticalAlignment="Top">50</Button>
                         </Grid>
-
-                        <!--UniformGrid Margin="10,0,0,0" Columns="13" Rows="1" Grid.Row="0">
-                            <TextBlock Text="6:00" HorizontalAlignment="Center"></TextBlock>
-                            <Separator>
-                                <Separator.LayoutTransform>
-                                    <RotateTransform Angle="90" />
-                                </Separator.LayoutTransform>
-                            </Separator>
-                            <TextBlock Text="7:00" HorizontalAlignment="Center"></TextBlock>
-                            <Separator>
-                                <Separator.LayoutTransform>
-                                    <RotateTransform Angle="90" />
-                                </Separator.LayoutTransform>
-                            </Separator>
-                            <TextBlock Text="8:00" HorizontalAlignment="Center"></TextBlock>
-                            <Separator>
-                                <Separator.LayoutTransform>
-                                    <RotateTransform Angle="90" />
-                                </Separator.LayoutTransform>
-                            </Separator>
-                            <TextBlock Text="9:00" HorizontalAlignment="Center"></TextBlock>
-                            <Separator>
-                                <Separator.LayoutTransform>
-                                    <RotateTransform Angle="90" />
-                                </Separator.LayoutTransform>
-                            </Separator>
-                            <TextBlock Text="10:00" HorizontalAlignment="Center"></TextBlock>
-                            <Separator>
-                                <Separator.LayoutTransform>
-                                    <RotateTransform Angle="90" />
-                                </Separator.LayoutTransform>
-                            </Separator>
-                            <TextBlock Text="11:00" HorizontalAlignment="Center"></TextBlock>
-                            <Separator>
-                                <Separator.LayoutTransform>
-                                    <RotateTransform Angle="90" />
-                                </Separator.LayoutTransform>
-                            </Separator>
-                            <TextBlock Text="12:00" HorizontalAlignment="Center"></TextBlock>
-                        </>
-                        <UniformGrid Columns="7" Margin="20,0,0,0" Grid.Row="1">
-                            <Button x:Name="RsvtnBtnTime1" Width="70" Height="70" VerticalAlignment="Top">50</Button>
-                            <Button x:Name="RsvtnBtnTime2" Width="70" Height="70" VerticalAlignment="Top">50</Button>
-                            <Button x:Name="RsvtnBtnTime3" Width="70" Height="70" VerticalAlignment="Top">50</Button>
-                            <Button x:Name="RsvtnBtnTime4" Width="70" Height="70" VerticalAlignment="Top">50</Button>
-                            <Button x:Name="RsvtnBtnTime5" Width="70" Height="70" VerticalAlignment="Top">50</Button>
-                            <Button x:Name="RsvtnBtnTime6" Width="70" Height="70" VerticalAlignment="Top">50</Button>
-                            <Button x:Name="RsvtnBtnTime7" Width="70" Height="70" VerticalAlignment="Top">50</Button>
-                        </UniformGrid-->
+                        <Grid x:Name="RsvtnGridInternal" Grid.Row="1" Margin="30, 30">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Rectangle Grid.Row="0" Fill="RoyalBlue" Grid.RowSpan="{Binding ElementName=RsvtnGridInternal, Path=RowDefinitions.Count}" Stroke="Black" StrokeThickness="1"></Rectangle>
+                            <Button x:Name="RsvtnBtnNew" Grid.Row="0" Width="70" Height="30" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top">New</Button>
+                            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                                <DataGrid x:Name="ReservationGrid" ItemsSource="{Binding}">
+                                    <DataGrid.Columns>
+                                        <DataGridCheckBoxColumn Header="Seated" Width="50" Binding="{Binding isSeated}"/>
+                                        <DataGridTextColumn Header="Name" Width="200" Binding="{Binding name}"/>
+                                        <DataGridTextColumn Header="Party Size" Width="200" Binding="{Binding partySize}"/>
+                                        <DataGridTextColumn Header="Phone" Width="200"  Binding="{Binding phoneNumber}"/>
+                                        <DataGridTextColumn Header="Time" Width="200" Binding="{Binding expectedTime}"/>
+                                        <DataGridTextColumn Header="Late Time" Width="200" Binding="{Binding lateTime}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </ScrollViewer>
+                        </Grid>
                     </Grid>
                 </TabItem.Content>
             </TabItem>
