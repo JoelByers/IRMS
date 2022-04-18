@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace IRMS
@@ -9,13 +10,13 @@ namespace IRMS
         private const int closingTime = 12;
         private const int numTimeSlots = 7;
         private const int numSeats = 50;
-        private List<Reservation>[] reservationTable = new List<Reservation>[numTimeSlots];
+        private ObservableCollection<Reservation>[] reservationTable = new ObservableCollection<Reservation>[numTimeSlots];
 
         public ReservationController()
         {
             for(int i = 0; i < reservationTable.Length; i++)
             {
-                reservationTable[i] = new List<Reservation>();
+                reservationTable[i] = new ObservableCollection<Reservation>();
             }
         }
 
@@ -24,12 +25,16 @@ namespace IRMS
             return reservationTable[timeIndex][reservationIndex];
         }
 
+        public void createReservation(Reservation newRes)
+        {
+            createReservation(newRes.name, newRes.phoneNumber, newRes.expectedTime, newRes.partySize);
+        }
+
         public void createReservation(string name, string phoneNumber, string expectedTime, int partySize)
         {
             // TODO late time is currently a placeholder with DateTime.Now
-            int hour = Int32.Parse(expectedTime.Substring(0, 2));
 
-            reservationTable[closingTime-hour].Add(new Reservation(name, phoneNumber, expectedTime, DateTime.Now.ToString(), partySize));
+            reservationTable[timeToIndex(expectedTime)].Add(new Reservation(name, phoneNumber, expectedTime, DateTime.Now.ToString(), partySize));
         }
 
         public void editReservation(int timeIndex,int reservationIndex, string newName, string newPhoneNumber, string newExpectedTime)
@@ -55,6 +60,24 @@ namespace IRMS
         public int getNumTimeSlots()
         {
             return numTimeSlots;
+        }
+
+        public ref ObservableCollection<Reservation> getReservationsAtTime(int timeIndex)
+        {
+            return ref reservationTable[timeIndex];
+        }
+
+        public int timeToIndex(string time)
+        {
+            string hourString = time.Substring(0, 2);
+            if (hourString.ToCharArray()[1] == ':')
+            {
+                hourString = hourString.Substring(0, 1);
+            }
+
+            int hour = Int32.Parse(hourString);
+
+            return hour - numTimeSlots + 1;
         }
     }
 }

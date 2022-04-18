@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace IRMS
 {
@@ -26,13 +27,12 @@ namespace IRMS
             public int numSeats;
         };
 
+        private static ReservationController reservationController = new ReservationController();
+        private static ReservationTimeSlot[] reservationTimeSlots = new ReservationTimeSlot[reservationController.getNumTimeSlots()];
+        
         public MainWindow()
         {
             InitializeComponent();
-
-            ReservationController reservationController = new ReservationController();
-            ReservationTimeSlot[] reservationTimeSlots = new ReservationTimeSlot[reservationController.getNumTimeSlots()];
-            Reservation res = new Reservation("Bob", "123-456-7890","10:00", "10:15", 4);
 
             reservationTimeSlots[0].button = RsvtnBtnTime1;
             reservationTimeSlots[1].button = RsvtnBtnTime2;
@@ -48,7 +48,7 @@ namespace IRMS
                 reservationTimeSlots[i].button.Content = reservationTimeSlots[i].numSeats;
             }
 
-            ReservationGrid.Items.Add(res);
+            ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(0);
         }
 
         public void OnMenuClick(object sender, RoutedEventArgs e)
@@ -84,6 +84,56 @@ namespace IRMS
             }
         }
 
+        public void RsvtnBtnCreateClick(object sender, RoutedEventArgs e)
+        {
+            string name = RsvtnTextBoxNewName.Text;
+            string phoneNumber = RsvtnTextBoxNewNumber.Text;
+            string expectedTime = RsvtnTextBoxNewTime.Text;
+            int partySize = Int32.Parse(RsvtnTextBoxNewSize.Text.Trim());
 
+            Reservation newReservation = new Reservation(name, phoneNumber, expectedTime, "10:00",partySize);
+            reservationController.createReservation(newReservation);
+            reservationTimeSlots[reservationController.timeToIndex(expectedTime)].numSeats--;
+            reservationTimeSlots[reservationController.timeToIndex(expectedTime)].button.Content = reservationTimeSlots[reservationController.timeToIndex(expectedTime)].numSeats;
+        }
+
+        public void RsvtnBtnNewClick (object sender, RoutedEventArgs e)
+        {
+            RsvtnNewGrid.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        public void RsvtnBtnTime1Clk(object sender, RoutedEventArgs e)
+        {
+            ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(0);
+        }
+
+        public void RsvtnBtnTime2Clk(object sender, RoutedEventArgs e)
+        {
+            ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(1);
+        }
+
+        public void RsvtnBtnTime3Clk(object sender, RoutedEventArgs e)
+        {
+            ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(2);
+        }
+
+        public void RsvtnBtnTime4Clk(object sender, RoutedEventArgs e)
+        {
+            ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(3);
+        }
+
+        public void RsvtnBtnTime5Clk(object sender, RoutedEventArgs e)
+        {
+            ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(4);
+        }
+
+        public void RsvtnBtnTime6Clk(object sender, RoutedEventArgs e)
+        {
+            ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(5);
+        }
+        public void RsvtnBtnTime7Clk(object sender, RoutedEventArgs e)
+        {
+            ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(6);
+        }
     }
 }

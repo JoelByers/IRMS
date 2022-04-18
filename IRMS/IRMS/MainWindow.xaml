@@ -15,24 +15,19 @@
             <RowDefinition Height="60"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-
         <Button Name="menuBtn" Click="OnMenuClick" ClickMode="Press" Width="50" Height="50" Grid.Column="0" HorizontalAlignment="Left" Margin="10,0,0,0" Background="Transparent" BorderBrush="Transparent">
             <Image Source="\Assets\menuIcon.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
         </Button>
-
         <Button Name="notificationBtn" Click="OnNotificationClick" ClickMode="Press" Width="50" Height="50" Grid.Column="0" HorizontalAlignment="Left" Margin="70,0,0,0" Background="Transparent" BorderBrush="Transparent">
             <Image Source="\Assets\notificationIcon.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
         </Button>
-
         <Rectangle Name="sidebar" Width="auto" Height="auto" Grid.Column="0" Grid.Row="1" Visibility="Collapsed" Fill="LightGray"/>
-
-        <Button Name="menuRsvtnBtn" Click="MenuRsvtnBtn" ClickMode="Press" Width="85" Height="40" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" Background="Transparent" BorderBrush="Transparent">
+        <Button Name="menuRsvtnBtn" Click="MenuRsvtnBtn" ClickMode="Press" Width="100" Height="60" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" Background="Transparent" BorderBrush="Transparent">
             <Grid>
                 <Image Source="\Assets\Rectangle1.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
-                <TextBlock Text="Reservation"></TextBlock>
+                <TextBlock Text="Reservation" HorizontalAlignment="Center"></TextBlock>
             </Grid>
         </Button>
-
         <TabControl Name ="tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TabControl.Resources>
                 <Style TargetType="TabPanel">
@@ -103,13 +98,13 @@
                                 </Separator.LayoutTransform>
                             </Separator>
                             <TextBlock Text="12:00" HorizontalAlignment="Center" Grid.Column="12" Grid.Row="0"></TextBlock>
-                            <Button x:Name="RsvtnBtnTime1" Grid.Column="0" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
-                            <Button x:Name="RsvtnBtnTime2" Grid.Column="2" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
-                            <Button x:Name="RsvtnBtnTime3" Grid.Column="4" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
-                            <Button x:Name="RsvtnBtnTime4" Grid.Column="6" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
-                            <Button x:Name="RsvtnBtnTime5" Grid.Column="8" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
-                            <Button x:Name="RsvtnBtnTime6" Grid.Column="10" Grid.Row="1" Width="70" Height="70" VerticalAlignment="Top">-1</Button>
-                            <Button x:Name="RsvtnBtnTime7" Grid.Column="12" Grid.Row="1" Width="70" Height="70" VerticalAlignment="Top">-1</Button>
+                            <Button x:Name="RsvtnBtnTime1" Click="RsvtnBtnTime1Clk" Grid.Column="0" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
+                            <Button x:Name="RsvtnBtnTime2" Click="RsvtnBtnTime2Clk" Grid.Column="2" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
+                            <Button x:Name="RsvtnBtnTime3" Click="RsvtnBtnTime3Clk" Grid.Column="4" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
+                            <Button x:Name="RsvtnBtnTime4" Click="RsvtnBtnTime4Clk" Grid.Column="6" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
+                            <Button x:Name="RsvtnBtnTime5" Click="RsvtnBtnTime5Clk" Grid.Column="8" Grid.Row="1"  Width="70" Height="70" VerticalAlignment="Top">-1</Button>
+                            <Button x:Name="RsvtnBtnTime6" Click="RsvtnBtnTime6Clk" Grid.Column="10" Grid.Row="1" Width="70" Height="70" VerticalAlignment="Top">-1</Button>
+                            <Button x:Name="RsvtnBtnTime7" Click="RsvtnBtnTime7Clk" Grid.Column="12" Grid.Row="1" Width="70" Height="70" VerticalAlignment="Top">-1</Button>
                         </Grid>
                         <Grid x:Name="RsvtnGridInternal" Grid.Row="1" Margin="30, 30">
                             <Grid.ColumnDefinitions>
@@ -121,9 +116,10 @@
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Rectangle Grid.Row="0" Fill="RoyalBlue" Grid.RowSpan="{Binding ElementName=RsvtnGridInternal, Path=RowDefinitions.Count}" Stroke="Black" StrokeThickness="1"></Rectangle>
-                            <Button x:Name="RsvtnBtnNew" Grid.Row="0" Width="70" Height="30" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top">New</Button>
-                            <Grid x:Name="NewRsvtnGrid" Grid.Row="1">
+                            <Button x:Name="RsvtnBtnNew" Click="RsvtnBtnNewClick" Grid.Row="0" Width="70" Height="30" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top">New</Button>
+                            <Grid x:Name="RsvtnNewGrid" Grid.Row="1">
                                 <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
@@ -131,14 +127,25 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"></RowDefinition>
+                                    <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
-                                <TextBox x:Name="RsvtnNewName" Grid.Column="0" Width="100" Height="30"></TextBox>
-                                <TextBox x:Name="RsvtnNewNumber" Grid.Column="1" Width="100" Height="30"></TextBox>
-                                <TextBox x:Name="RsvtnNewSize" Grid.Column="2" Width="100" Height="30"></TextBox>
-                                <TextBox x:Name="RsvtnNewTime" Grid.Column="3" Width="100" Height="30"></TextBox>
+                                <TextBlock Text="Name" Grid.Row="0" Grid.Column="0" Width="200" Height="30"></TextBlock>
+                                <TextBlock Text="Size" Grid.Row="0" Grid.Column="1" Width="200" Height="30"></TextBlock>
+                                <TextBlock Text="PhoneNumber" Grid.Row="0" Grid.Column="2" Width="200" Height="30"></TextBlock>
+                                <TextBlock Text="Time" Grid.Row="0" Grid.Column="3" Width="200" Height="30"></TextBlock>
+                                <TextBox x:Name="RsvtnTextBoxNewName" Grid.Row="1"  Grid.Column="0" Width="200" Height="30"></TextBox>
+                                <TextBox x:Name="RsvtnTextBoxNewSize" Grid.Row="1" Grid.Column="1" Width="200" Height="30"></TextBox>
+                                <TextBox x:Name="RsvtnTextBoxNewNumber" Grid.Row="1" Grid.Column="2" Width="200" Height="30"></TextBox>
+                                <TextBox x:Name="RsvtnTextBoxNewTime" Grid.Row="1" Grid.Column="3" Width="200" Height="30"></TextBox>
+                                <Button x:Name="RsvtnBtnCreate" Click="RsvtnBtnCreateClick" ClickMode="Press" Width="100" Height="60" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent" BorderBrush="Transparent">
+                                    <Grid>
+                                        <Image Source="\Assets\Rectangle1.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
+                                        <TextBlock Text="Create" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                    </Grid>
+                                </Button>
                             </Grid>
                             <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Visible">
-                                <DataGrid x:Name="ReservationGrid" ItemsSource="{Binding}">
+                                <DataGrid x:Name="ReservationGrid" ItemsSource="{Binding}" AutoGenerateColumns="True">
                                     <DataGrid.Columns>
                                         <DataGridCheckBoxColumn Header="Seated" Width="50" Binding="{Binding isSeated}"/>
                                         <DataGridTextColumn Header="Name" Width="200" Binding="{Binding name}"/>
