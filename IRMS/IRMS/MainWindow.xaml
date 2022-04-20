@@ -27,8 +27,10 @@
         <Button Name="notificationBtn" Click="OnNotificationClick" ClickMode="Press" Width="50" Height="50" Grid.Column="0" HorizontalAlignment="Left" Margin="70,0,0,0" Background="Transparent" BorderBrush="Transparent">
             <Image Source="\Assets\notificationIcon.png" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"></Image>
         </Button>
-        <Rectangle Name="sidebar" Width="auto" Height="auto" Grid.Column="0" Grid.Row="1" Visibility="Collapsed" Fill="LightGray"/>
-        <Button Name="menuRsvtnBtn" Click="MenuRsvtnBtn" ClickMode="Press" Width="100" Height="40" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,30,0,0" Background="#FFF96C">
+        <Rectangle Name="sidebar" Width="auto" RadiusX="5" RadiusY="5" Height="auto" Grid.Column="0" Grid.Row="1" Visibility="Collapsed" Fill="LightGray"/>
+        <TextBlock Text="Menu" Style="{StaticResource StandardTextStyle}" Grid.Column="0" Grid.Row="1" Margin="0,10" HorizontalAlignment="Center" Visibility="{Binding ElementName=sidebar, Path=Visibility}"></TextBlock>
+        <Separator Grid.Column="0" Grid.Row="1" Width="100" VerticalAlignment="Top" Margin="0,45"></Separator>
+        <Button Name="menuRsvtnBtn" Click="MenuRsvtnBtn" ClickMode="Press" Width="100" Height="40" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,60,0,0" Background="#FFF96C">
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>

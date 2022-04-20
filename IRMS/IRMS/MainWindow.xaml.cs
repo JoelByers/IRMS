@@ -113,6 +113,11 @@ namespace IRMS
                 RsvtnTextBlockInvalidMessage.Visibility = System.Windows.Visibility.Visible;
                 RsvtnTextBlockInvalidMessage.Text = "Invalid Time: Must be in the format xx:xx";
             }
+            else if(reservationController.timeToIndex(expectedTime) < 0 || reservationController.timeToIndex(expectedTime) >= reservationController.getNumTimeSlots())
+            {
+                RsvtnTextBlockInvalidMessage.Visibility = System.Windows.Visibility.Visible;
+                RsvtnTextBlockInvalidMessage.Text = "Invalid Time: Must be in range 6:00 - 12:00";
+            }
             else
             {
                 partySize = Int32.Parse(partySizeString);
