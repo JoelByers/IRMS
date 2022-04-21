@@ -12,7 +12,8 @@
             <Setter Property="FontWeight" Value="DemiBold" />
         </Style>
     </Window.Resources>
-    <Grid>
+    <!--Grid for Main Window-->
+        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="130"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -37,7 +38,8 @@
                 </Style>
             </Button.Resources> Reservation
         </Button>
-        <TabControl Name ="tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+        <!--Tabs for subsystems-->
+            <TabControl Name ="tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TabControl.Resources>
                 <Style TargetType="TabPanel">
                     <Setter Property="HorizontalAlignment" Value="Right"/>
