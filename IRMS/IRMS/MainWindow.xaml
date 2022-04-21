@@ -45,14 +45,17 @@
                     <Setter Property="HorizontalAlignment" Value="Right"/>
                 </Style>
             </TabControl.Resources>
-            <TabItem Name="reservationTab" Header="Reservations" Visibility="Collapsed">
+            <!--Begin Reservation Tab Content-->
+                <TabItem Name="reservationTab" Header="Reservations" Visibility="Collapsed">
                 <TabItem.Content>
-                    <Grid Visibility="{Binding ElementName=reservationTab, Path=Visibility}">
+                    <!--Top Level Grid-->
+                        <Grid Visibility="{Binding ElementName=reservationTab, Path=Visibility}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="120"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Margin="30, 0">
+                        <!--Grid for Time Slots-->
+                            <Grid Grid.Row="0" Margin="30, 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="70"></ColumnDefinition>
                                 <ColumnDefinition Width="70"></ColumnDefinition>
@@ -73,6 +76,7 @@
                                 <RowDefinition Height="70"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
+                            <!--Time Slot Text and Separators-->
                             <TextBlock Style="{StaticResource StandardTextStyle}" Text="6:00" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0"></TextBlock>
                             <Separator Grid.Column="1" Grid.Row="0">
                                 <Separator.LayoutTransform>
@@ -110,7 +114,8 @@
                                 </Separator.LayoutTransform>
                             </Separator>
                             <TextBlock Style="{StaticResource StandardTextStyle}" Text="12:00" HorizontalAlignment="Center" Grid.Column="12" Grid.Row="0"></TextBlock>
-                            <Button x:Name="RsvtnBtnTime1" Click="RsvtnBtnTime1Clk" Grid.Column="0" Grid.Row="1"  Width="70" Height="70"  VerticalAlignment="Top" Background="#FFF96C">
+                            <!--Time Slot Buttons-->
+                                <Button x:Name="RsvtnBtnTime1" Click="RsvtnBtnTime1Clk" Grid.Column="0" Grid.Row="1"  Width="70" Height="70"  VerticalAlignment="Top" Background="#FFF96C">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="5"/>
@@ -161,6 +166,7 @@
                             </Button>
                             <Polygon x:Name="RsvtnTimeIndicator" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"  HorizontalAlignment="Center" Points="10,0 20,20 0,20" StrokeLineJoin="Bevel" StrokeThickness="1" Stroke="Black" Fill="RoyalBlue"></Polygon>
                         </Grid>
+                        <!--Grid for creating and displaying reservations-->
                         <Grid x:Name="RsvtnGridInternal" Grid.Row="1" Margin="30, 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -170,6 +176,7 @@
                                 <RowDefinition Height="60"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
+                            <!--Controls for creating reservations-->
                             <Rectangle Grid.Row="0" Fill="RoyalBlue" Grid.RowSpan="{Binding ElementName=RsvtnGridInternal, Path=RowDefinitions.Count}" Stroke="Black" StrokeThickness="1"></Rectangle>
                             <Button x:Name="RsvtnBtnNew" Click="RsvtnBtnNewClick" Grid.Row="0" Width="70" Height="30" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFF96C">
                                 <Button.Resources>
@@ -215,6 +222,7 @@
                                     </Button.Resources> Cancel</Button>
                                 <TextBlock x:Name="RsvtnTextBlockInvalidMessage" Text="INVALID" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Visibility="Hidden" TextWrapping="Wrap"></TextBlock>
                             </Grid>
+                            <!--Displaying Reservations-->
                             <ScrollViewer x:Name="ReservationScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Visible" Grid.RowSpan="2">
                                 <DataGrid x:Name="ReservationGrid" ItemsSource="{Binding}" AutoGenerateColumns="False">
                                     <DataGrid.Columns>
@@ -230,6 +238,7 @@
                         </Grid>
                     </Grid>
                 </TabItem.Content>
+                <!--End Reservation tab Content-->
             </TabItem>
         </TabControl>
     </Grid>
