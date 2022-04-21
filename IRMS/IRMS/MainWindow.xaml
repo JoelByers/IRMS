@@ -46,7 +46,7 @@
             </Button.Resources> Sales
         </Button>
         <!--Tabs for subsystems-->
-            <TabControl Name ="tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <TabControl Name ="Tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TabControl.Resources>
                 <Style TargetType="TabPanel">
                     <Setter Property="HorizontalAlignment" Value="Right"/>
@@ -258,12 +258,65 @@
                         <Grid Grid.Column="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="300"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <TextBlock Style="{StaticResource StandardTextStyle}" Text="Party Name" HorizontalAlignment="Left" Grid.Row="0" Margin="30,10"></TextBlock>
                             <TextBox x:Name="SalesPartyTextBox" Grid.Row="0" Height="30" FontSize="20" Width="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="30" Background="LightGray"></TextBox>
-                            <DataGrid>
-                                
+                            <DataGrid x:Name="SalesItemsGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Row="1" Margin="30,0">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Item" Width="*" Binding="{Binding item}"/>
+                                    <DataGridTextColumn Header="Quanity" Width="*" Binding="{Binding quantity}"/>
+                                    <DataGridTextColumn Header="Cost" Width="*" Binding="{Binding cost}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="1" Margin="0,0,30,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="SalesViewBeef" Click="SalesViewBeefClick" ClickMode="Press" Grid.Column="0" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources> Beef
+                                </Button>
+                                <Button x:Name="SalesViewPork" Click="SalesViewPorkClick" ClickMode="Press" Grid.Column="1" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources> Pork
+                                </Button>
+                                <Button x:Name="SalesViewChicken" Click="SalesViewChickenClick" ClickMode="Press" Grid.Column="2" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources> Chicken
+                                </Button>
+                                <Button x:Name="SalesViewDrinks" Click="SalesViewDrinksClick" ClickMode="Press" Grid.Column="3" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources> Drinks
+                                </Button>
+                            </Grid>
+                            <DataGrid x:Name="MenuItemsGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Row="1" Margin="0,0,30,30">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Item" Width="*" Binding="{Binding name}"/>
+                                    <DataGridTextColumn Header="Cost" Width="*" Binding="{Binding cost}"/>
+                                </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
                     </Grid>    

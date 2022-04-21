@@ -31,6 +31,7 @@ namespace IRMS
         private static ReservationController reservationController = new ReservationController();
         private static ReservationTimeSlot[] reservationTimeSlots = new ReservationTimeSlot[reservationController.getNumTimeSlots()];
         private static CustomerProfiles customerProfiles = new CustomerProfiles();
+        private static SalesController salesController = new SalesController();
         public MainWindow()
         {
             InitializeComponent();
@@ -49,7 +50,13 @@ namespace IRMS
                 reservationTimeSlots[i].button.Content = reservationTimeSlots[i].numSeats;
             }
 
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+
             ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(0);
+            SalesItemsGrid.ItemsSource = salesController.getCurrentSaleList();
+            MenuItemsGrid.ItemsSource = salesController.getBeefItemsList();
+            SalesViewBeef.Background = brush;
         }
 
         public void OnMenuClick(object sender, RoutedEventArgs e)
@@ -57,12 +64,12 @@ namespace IRMS
             if(sidebar.Visibility == System.Windows.Visibility.Collapsed)
             {
                 sidebar.Visibility = System.Windows.Visibility.Visible;
-                tabs.SetValue(Grid.ColumnProperty, 1);
+                Tabs.SetValue(Grid.ColumnProperty, 1);
             }
             else
             {
                 sidebar.Visibility = System.Windows.Visibility.Collapsed;
-                tabs.SetValue(Grid.ColumnProperty, 0);
+                Tabs.SetValue(Grid.ColumnProperty, 0);
             }
         }
 
@@ -78,6 +85,7 @@ namespace IRMS
             if(reservationTab.Visibility == System.Windows.Visibility.Collapsed)
             {
                 reservationTab.Visibility = System.Windows.Visibility.Visible;
+                Tabs.SelectedItem = reservationTab;
             }
             else
             {
@@ -345,11 +353,58 @@ namespace IRMS
             if (SalesTab.Visibility == System.Windows.Visibility.Collapsed)
             {
                 SalesTab.Visibility = System.Windows.Visibility.Visible;
+                Tabs.SelectedItem = SalesTab;
             }
             else
             {
                 SalesTab.Visibility = System.Windows.Visibility.Collapsed;
             }
+        }
+
+        public void SalesViewBeefClick(object sender, RoutedEventArgs e)
+        {
+            MenuItemsGrid.ItemsSource = salesController.getBeefItemsList();
+
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewBeef.Background = brush;
+            SalesViewPork.Background = Brushes.LightGray;
+            SalesViewChicken.Background = Brushes.LightGray;
+            SalesViewDrinks.Background = Brushes.LightGray;
+
+        }
+        public void SalesViewPorkClick(object sender, RoutedEventArgs e)
+        {
+            MenuItemsGrid.ItemsSource = salesController.getPorkItemsList();
+
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewPork.Background = brush;
+            SalesViewBeef.Background = Brushes.LightGray;
+            SalesViewChicken.Background = Brushes.LightGray;
+            SalesViewDrinks.Background = Brushes.LightGray;
+        }
+        public void SalesViewChickenClick(object sender, RoutedEventArgs e)
+        {
+            MenuItemsGrid.ItemsSource = salesController.getChickenItemsList();
+
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewChicken.Background = brush;
+            SalesViewPork.Background = Brushes.LightGray;
+            SalesViewBeef.Background = Brushes.LightGray;
+            SalesViewDrinks.Background = Brushes.LightGray;
+        }
+        public void SalesViewDrinksClick(object sender, RoutedEventArgs e)
+        {
+            MenuItemsGrid.ItemsSource = salesController.getDrinkItemsList();
+
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewDrinks.Background = brush;
+            SalesViewPork.Background = Brushes.LightGray;
+            SalesViewChicken.Background = Brushes.LightGray;
+            SalesViewBeef.Background = Brushes.LightGray;
         }
     }
 }
