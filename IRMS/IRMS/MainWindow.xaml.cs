@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace IRMS
 {
@@ -29,7 +30,7 @@ namespace IRMS
 
         private static ReservationController reservationController = new ReservationController();
         private static ReservationTimeSlot[] reservationTimeSlots = new ReservationTimeSlot[reservationController.getNumTimeSlots()];
-        
+        private static CustomerProfiles customerProfiles = new CustomerProfiles();
         public MainWindow()
         {
             InitializeComponent();
@@ -126,7 +127,9 @@ namespace IRMS
                 {
                     RsvtnTextBlockInvalidMessage.Visibility = System.Windows.Visibility.Hidden;
 
-                    Reservation newReservation = new Reservation(name, phoneNumber, expectedTime, "10:00", partySize);
+                    Reservation newReservation = new Reservation(name, phoneNumber, expectedTime, expectedTime, partySize);
+                    newReservation.lateTime = getLateTime(newReservation);
+                    Trace.WriteLine(newReservation.lateTime);
                     reservationController.createReservation(newReservation);
                     reservationTimeSlots[reservationController.timeToIndex(expectedTime)].numSeats -= 4 * (int)Math.Ceiling((double)partySize / 4.0);
                     reservationTimeSlots[reservationController.timeToIndex(expectedTime)].button.Content = reservationTimeSlots[reservationController.timeToIndex(expectedTime)].numSeats.ToString();
@@ -232,6 +235,53 @@ namespace IRMS
 
             return isValid;
         }
+
+        private string getLateTime(Reservation reservation)
+        {
+            Customer thisCustomer = customerProfiles.getCustomer(reservation.name);
+            Rank thisRank;
+            int thisTimeHour;
+            int thisTimeMin = Int32.Parse(reservation.expectedTime.Substring(reservation.expectedTime.Length - 2, 2));
+
+            if (reservation.expectedTime.ToCharArray()[1] == ':')
+            {
+                thisTimeHour = Int32.Parse(reservation.expectedTime.Substring(0,1));
+            }
+            else
+            {
+                thisTimeHour = Int32.Parse(reservation.expectedTime.Substring(0, 2));
+            }
+
+            if(thisCustomer == null)
+            {
+                thisRank = Rank.BRONZE;
+            }
+            else
+            {
+                thisRank = thisCustomer.getRank();
+            }
+
+            Trace.WriteLine(thisRank);
+
+            switch(thisRank)
+            {
+                case Rank.SILVER: thisTimeMin += 5;
+                    break;
+                case Rank.GOLD: thisTimeMin += 15;
+                    break;
+                case Rank.PREMIUM: thisTimeMin += 20;
+                    break;
+            }
+
+            if(thisTimeMin >= 60)
+            {
+                thisTimeMin -= 60;
+                thisTimeHour++;
+            }
+
+            return thisTimeHour.ToString() + ":" + thisTimeMin.ToString("00");
+        }
+
         public void RsvtnBtnNewClick (object sender, RoutedEventArgs e)
         {
             RsvtnNewGrid.Visibility = System.Windows.Visibility.Visible;

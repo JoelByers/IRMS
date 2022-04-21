@@ -9,7 +9,7 @@ namespace IRMS
     {
         private const int closingTime = 12;
         private const int numTimeSlots = 7;
-        private const int numSeats = 50;
+        private const int numSeats = 100;
         private ObservableCollection<Reservation>[] reservationTable = new ObservableCollection<Reservation>[numTimeSlots];
 
         public ReservationController()
@@ -27,14 +27,14 @@ namespace IRMS
 
         public void createReservation(Reservation newRes)
         {
-            createReservation(newRes.name, newRes.phoneNumber, newRes.expectedTime, newRes.partySize);
+            createReservation(newRes.name, newRes.phoneNumber, newRes.expectedTime, newRes.lateTime, newRes.partySize);
         }
 
-        public void createReservation(string name, string phoneNumber, string expectedTime, int partySize)
+        public void createReservation(string name, string phoneNumber, string expectedTime, string lateTime,int partySize)
         {
             // TODO late time is currently a placeholder with DateTime.Now
 
-            reservationTable[timeToIndex(expectedTime)].Add(new Reservation(name, phoneNumber, expectedTime, DateTime.Now.ToString(), partySize));
+            reservationTable[timeToIndex(expectedTime)].Add(new Reservation(name, phoneNumber, expectedTime, lateTime, partySize));
         }
 
         public void editReservation(int timeIndex,int reservationIndex, string newName, string newPhoneNumber, string newExpectedTime)
