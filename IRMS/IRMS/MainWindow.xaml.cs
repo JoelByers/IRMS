@@ -339,5 +339,17 @@ namespace IRMS
             ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(6);
             RsvtnTimeIndicator.SetValue(Grid.ColumnProperty, 13);
         }
+
+        public void MenuSalesBtn(object sender, RoutedEventArgs e)
+        {
+            if (SalesTab.Visibility == System.Windows.Visibility.Collapsed)
+            {
+                SalesTab.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                SalesTab.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
     }
 }
