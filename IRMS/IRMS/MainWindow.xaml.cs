@@ -443,7 +443,16 @@ namespace IRMS
 
         public void SalesApplyCouponsClick(object sender, RoutedEventArgs e)
         {
-
+            if(SalesMenuGrid.Visibility == System.Windows.Visibility.Visible)
+            {
+                SalesMenuGrid.Visibility = System.Windows.Visibility.Hidden;
+                SalesApplyCouponsBtn.Content = "Add Items";
+            }
+            else
+            {
+                SalesMenuGrid.Visibility = System.Windows.Visibility.Visible;
+                SalesApplyCouponsBtn.Content = "Apply Coupons";
+            }
         }
     }
 }

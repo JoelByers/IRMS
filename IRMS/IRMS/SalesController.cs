@@ -13,17 +13,17 @@ namespace IRMS
         private List<MenuItem> porkItems = new List<MenuItem>();
         private List<MenuItem> chickenItems = new List<MenuItem>();
         private List<MenuItem> drinkItems = new List<MenuItem>();
-        private float initialCost;
-        private float totalCost;
-        private float totalTax;
-        private float tax;
+        private decimal initialCost;
+        private decimal totalCost;
+        private decimal totalTax;
+        private decimal tax;
 
         public SalesController()
         {
             totalCost = 0;
             totalTax = 0;
             initialCost = 0;
-            tax = 0.05F;
+            tax = 0.05M;
 
             beefItems.Add(new MenuItem("Beef 1", FoodType.BEEF));
             beefItems.Add(new MenuItem("Beef 2", FoodType.BEEF));
@@ -62,8 +62,8 @@ namespace IRMS
                 currentSaleItems.Add(new SaleItem(menuItem));
             }
 
-            initialCost += menuItem.cost;
-            totalTax += (float)Math.Round(menuItem.cost * tax,2);
+            initialCost += (decimal)menuItem.cost;
+            totalTax += Math.Round((decimal)menuItem.cost * tax,2);
             totalCost = initialCost + totalTax;
         }
 
@@ -76,8 +76,8 @@ namespace IRMS
                 currentSaleItems.Remove(item);
             }
 
-            initialCost -= item.menuItem.cost;
-            totalTax -= (float)Math.Round(item.menuItem.cost * tax, 2);
+            initialCost -= (decimal)item.menuItem.cost;
+            totalTax -= Math.Round((decimal)item.menuItem.cost * tax, 2);
             totalCost = initialCost + totalTax;
         }
 
@@ -106,12 +106,12 @@ namespace IRMS
             return ref drinkItems;
         }
 
-        public float getTotalCost()
+        public decimal getTotalCost()
         {
             return totalCost;
         }
 
-        public float getTotalTax()
+        public decimal getTotalTax()
         {
             return totalTax;
         }
