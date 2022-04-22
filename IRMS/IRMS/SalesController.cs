@@ -1,19 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace IRMS
 {
     class SalesController
     {
-        private List<SaleItem> currentSaleItems = new List<SaleItem>();
+        private ObservableCollection<SaleItem> currentSaleItems = new ObservableCollection<SaleItem>();
         private List<MenuItem> beefItems = new List<MenuItem>();
         private List<MenuItem> porkItems = new List<MenuItem>();
         private List<MenuItem> chickenItems = new List<MenuItem>();
         private List<MenuItem> drinkItems = new List<MenuItem>();
+        private float initialCost;
+        private float totalCost;
+        private float totalTax;
+        private float tax;
 
         public SalesController()
         {
+            totalCost = 0;
+            totalTax = 0;
+            initialCost = 0;
+            tax = 0.05F;
+
             beefItems.Add(new MenuItem("Beef 1", FoodType.BEEF));
             beefItems.Add(new MenuItem("Beef 2", FoodType.BEEF));
             beefItems.Add(new MenuItem("Beef 3", FoodType.BEEF));
@@ -22,7 +33,7 @@ namespace IRMS
             porkItems.Add(new MenuItem("Pork 2", FoodType.PORK));
             porkItems.Add(new MenuItem("Pork 3", FoodType.PORK));
             chickenItems.Add(new MenuItem("Chicken 1", FoodType.CHICKEN));
-            chickenItems.Add(new MenuItem("Chicken 1", FoodType.CHICKEN));
+            chickenItems.Add(new MenuItem("Chicken 2", FoodType.CHICKEN));
             drinkItems.Add(new MenuItem("Drink 1", FoodType.DRINK));
             drinkItems.Add(new MenuItem("Drink 2", FoodType.DRINK));
             drinkItems.Add(new MenuItem("Drink 3", FoodType.DRINK));
@@ -36,9 +47,10 @@ namespace IRMS
 
             foreach(SaleItem searchItem in currentSaleItems)
             {
-                if(searchItem.menuItem == menuItem)
+                if(searchItem.menuItem.name == menuItem.name)
                 {
-                    searchItem.quantity++;
+                    Trace.WriteLine("Found");
+                    searchItem.incrementItem();
                     itemFound = true;
                     break;
                 }
@@ -46,28 +58,62 @@ namespace IRMS
 
             if(!itemFound)
             {
+                Trace.WriteLine("Add");
                 currentSaleItems.Add(new SaleItem(menuItem));
             }
+
+            initialCost += menuItem.cost;
+            totalTax += (float)Math.Round(menuItem.cost * tax,2);
+            totalCost = initialCost + totalTax;
         }
-        public ref List<SaleItem> getCurrentSaleList()
+
+        public void removeItem(SaleItem item)
+        {
+            item.decrementItem();
+            
+            if(item.quantity <= 0)
+            {
+                currentSaleItems.Remove(item);
+            }
+
+            initialCost -= item.menuItem.cost;
+            totalTax -= (float)Math.Round(item.menuItem.cost * tax, 2);
+            totalCost = initialCost + totalTax;
+        }
+
+        public ref ObservableCollection<SaleItem> getCurrentSaleList()
         {
             return ref currentSaleItems;
         }
+
         public ref List<MenuItem> getBeefItemsList()
         {
             return ref beefItems;
         }
+
         public ref List<MenuItem> getPorkItemsList()
         {
             return ref porkItems;
         }
+
         public ref List<MenuItem> getChickenItemsList()
         {
             return ref chickenItems;
         }
+
         public ref List<MenuItem> getDrinkItemsList()
         {
             return ref drinkItems;
+        }
+
+        public float getTotalCost()
+        {
+            return totalCost;
+        }
+
+        public float getTotalTax()
+        {
+            return totalTax;
         }
     }
 }

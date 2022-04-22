@@ -52,11 +52,11 @@ namespace IRMS
 
             BrushConverter converter = new System.Windows.Media.BrushConverter();
             Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewBeef.Background = brush;
 
             ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(0);
             SalesItemsGrid.ItemsSource = salesController.getCurrentSaleList();
             MenuItemsGrid.ItemsSource = salesController.getBeefItemsList();
-            SalesViewBeef.Background = brush;
         }
 
         public void OnMenuClick(object sender, RoutedEventArgs e)
@@ -405,6 +405,45 @@ namespace IRMS
             SalesViewPork.Background = Brushes.LightGray;
             SalesViewChicken.Background = Brushes.LightGray;
             SalesViewBeef.Background = Brushes.LightGray;
+        }
+
+        public void SalesAddMenuItem(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    salesController.addSaleItem((MenuItem)row.Item);
+                    Trace.WriteLine(((MenuItem)row.Item).name);
+                    break;
+                }
+            }
+
+            SalesItemsGrid.Items.Refresh();
+            SalesTotalTextBlock.Text = salesController.getTotalCost().ToString();
+            SalesTaxTextBlock.Text = salesController.getTotalTax().ToString();
+        }
+        public void SalesRemoveMenuItem(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    salesController.removeItem((SaleItem)row.Item);
+                    break;
+                }
+            }
+
+            SalesItemsGrid.Items.Refresh();
+            SalesTotalTextBlock.Text = salesController.getTotalCost().ToString();
+            SalesTaxTextBlock.Text = salesController.getTotalTax().ToString();
+        }
+
+        public void SalesApplyCouponsClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
