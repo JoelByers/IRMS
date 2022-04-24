@@ -5,14 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IRMS"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="RoyalBlue">
+        Title="MainWindow" Height="450" Width="800" Background="RoyalBlue" WindowState="Maximized">
     <Window.Resources>
         <Style x:Key="StandardTextStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="20" />
             <Setter Property="FontWeight" Value="DemiBold" />
         </Style>
     </Window.Resources>
-    <Grid>
+    <!--Grid for Main Window-->
+        <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="130"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -37,20 +38,31 @@
                 </Style>
             </Button.Resources> Reservation
         </Button>
-        <TabControl Name ="tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+        <Button Name="menuSalesBtn" Click="MenuSalesBtn" ClickMode="Press" Width="100" Height="40" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,120,0,0" Background="#FFF96C">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Button.Resources> Sales
+        </Button>
+        <!--Tabs for subsystems-->
+            <TabControl Name ="Tabs" TabStripPlacement="Top" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
             <TabControl.Resources>
                 <Style TargetType="TabPanel">
                     <Setter Property="HorizontalAlignment" Value="Right"/>
                 </Style>
             </TabControl.Resources>
-            <TabItem Name="reservationTab" Header="Reservations" Visibility="Collapsed">
+            <!--Begin Reservation Tab Content-->
+                <TabItem Name="reservationTab" Header="Reservations" Visibility="Collapsed">
                 <TabItem.Content>
-                    <Grid Visibility="{Binding ElementName=reservationTab, Path=Visibility}">
+                    <!--Top Level Grid-->
+                        <Grid Visibility="{Binding ElementName=reservationTab, Path=Visibility}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="120"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <Grid Grid.Row="0" Margin="30, 0">
+                        <!--Grid for Time Slots-->
+                            <Grid Grid.Row="0" Margin="30, 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="70"></ColumnDefinition>
                                 <ColumnDefinition Width="70"></ColumnDefinition>
@@ -71,6 +83,7 @@
                                 <RowDefinition Height="70"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
+                            <!--Time Slot Text and Separators-->
                             <TextBlock Style="{StaticResource StandardTextStyle}" Text="6:00" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0"></TextBlock>
                             <Separator Grid.Column="1" Grid.Row="0">
                                 <Separator.LayoutTransform>
@@ -108,7 +121,8 @@
                                 </Separator.LayoutTransform>
                             </Separator>
                             <TextBlock Style="{StaticResource StandardTextStyle}" Text="12:00" HorizontalAlignment="Center" Grid.Column="12" Grid.Row="0"></TextBlock>
-                            <Button x:Name="RsvtnBtnTime1" Click="RsvtnBtnTime1Clk" Grid.Column="0" Grid.Row="1"  Width="70" Height="70"  VerticalAlignment="Top" Background="#FFF96C">
+                            <!--Time Slot Buttons-->
+                                <Button x:Name="RsvtnBtnTime1" Click="RsvtnBtnTime1Clk" Grid.Column="0" Grid.Row="1"  Width="70" Height="70"  VerticalAlignment="Top" Background="#FFF96C">
                                 <Button.Resources>
                                     <Style TargetType="Border">
                                         <Setter Property="CornerRadius" Value="5"/>
@@ -159,6 +173,7 @@
                             </Button>
                             <Polygon x:Name="RsvtnTimeIndicator" Grid.Row="2" Grid.Column="0" VerticalAlignment="Top"  HorizontalAlignment="Center" Points="10,0 20,20 0,20" StrokeLineJoin="Bevel" StrokeThickness="1" Stroke="Black" Fill="RoyalBlue"></Polygon>
                         </Grid>
+                        <!--Grid for creating and displaying reservations-->
                         <Grid x:Name="RsvtnGridInternal" Grid.Row="1" Margin="30, 0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -168,6 +183,7 @@
                                 <RowDefinition Height="60"></RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                             </Grid.RowDefinitions>
+                            <!--Controls for creating reservations-->
                             <Rectangle Grid.Row="0" Fill="RoyalBlue" Grid.RowSpan="{Binding ElementName=RsvtnGridInternal, Path=RowDefinitions.Count}" Stroke="Black" StrokeThickness="1"></Rectangle>
                             <Button x:Name="RsvtnBtnNew" Click="RsvtnBtnNewClick" Grid.Row="0" Width="70" Height="30" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFF96C">
                                 <Button.Resources>
@@ -213,6 +229,7 @@
                                     </Button.Resources> Cancel</Button>
                                 <TextBlock x:Name="RsvtnTextBlockInvalidMessage" Text="INVALID" Grid.Column="6" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" Visibility="Hidden" TextWrapping="Wrap"></TextBlock>
                             </Grid>
+                            <!--Displaying Reservations-->
                             <ScrollViewer x:Name="ReservationScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Visible" Grid.RowSpan="2">
                                 <DataGrid x:Name="ReservationGrid" ItemsSource="{Binding}" AutoGenerateColumns="False">
                                     <DataGrid.Columns>
@@ -228,6 +245,156 @@
                         </Grid>
                     </Grid>
                 </TabItem.Content>
+                <!--End Reservation tab Content-->
+                </TabItem>
+            <TabItem Name="SalesTab" Header="Sales" Visibility="Collapsed">
+                <!--Begin Sales Content-->
+                <TabItem.Content>
+                    <Grid Visibility="{Binding ElementName=SalesTab, Path=Visibility}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="200"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Style="{StaticResource StandardTextStyle}" Text="Party Name" HorizontalAlignment="Left" Grid.Row="0" Margin="30,10"></TextBlock>
+                            <TextBox x:Name="SalesPartyTextBox" Grid.Row="0" Height="30" FontSize="20" Width="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="30" Background="LightGray"></TextBox>
+                            <DataGrid x:Name="SalesItemsGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Row="1" Margin="30,0" >
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="SalesRemoveMenuItem">Remove</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Item" Width="*" Binding="{Binding item}"/>
+                                    <DataGridTextColumn Header="Quanity" Width="*" Binding="{Binding quantity}"/>
+                                    <DataGridTextColumn Header="Cost" Width="*" Binding="{Binding totalCost}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <TextBlock Text="Cost:" Style="{StaticResource StandardTextStyle}" Grid.Row="2" Grid.Column="0" Margin="30,10"/>
+                            <TextBlock x:Name="SalesInitialCostTextBlock" Text="0" Style="{StaticResource StandardTextStyle}" Grid.Row="2" Grid.Column="0" Margin="140,10"/>
+                            <TextBlock Text="Discount:" Style="{StaticResource StandardTextStyle}" Grid.Row="3" Grid.Column="0" Margin="30,10"/>
+                            <TextBlock x:Name="SalesDiscountTextBlock" Text="0" Style="{StaticResource StandardTextStyle}" Grid.Row="3" Grid.Column="0" Margin="140,10"/>
+                            <TextBlock Text="Tax:" Style="{StaticResource StandardTextStyle}" Grid.Row="4" Grid.Column="0" Margin="30,10"/>
+                            <TextBlock x:Name="SalesTaxTextBlock" Text="0" Style="{StaticResource StandardTextStyle}" Grid.Row="4" Grid.Column="0" Margin="140,10"/>
+                            <TextBlock Text="Total:" Style="{StaticResource StandardTextStyle}" Grid.Row="5" Grid.Column="0" Margin="30,10"/>
+                            <TextBlock x:Name="SalesTotalTextBlock" Text="0" Style="{StaticResource StandardTextStyle}" Grid.Row="5" Grid.Column="0" Margin="140,10"/>
+                            <Rectangle Grid.Column="0" Grid.Row="6" Margin="30,0,30,30" RadiusX="10" RadiusY="10" StrokeThickness="1" Stroke="Black" Fill="RoyalBlue"></Rectangle>
+                            <Button x:Name="SalesViewCouponsBtn" Click="SalesViewCouponsClick" ClickMode="Press" Grid.Column="2" Grid.Row="6" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0,0,0,30"  Background="#FFF96C">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources> View Coupons
+                            </Button>
+                        </Grid>
+                        <Grid x:Name="SalesMenuGrid" Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Column="1" Margin="0,0,30,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="SalesViewBeef" Click="SalesViewBeefClick" ClickMode="Press" Grid.Column="0" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources> Beef
+                                </Button>
+                                <Button x:Name="SalesViewPork" Click="SalesViewPorkClick" ClickMode="Press" Grid.Column="1" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources> Pork
+                                </Button>
+                                <Button x:Name="SalesViewChicken" Click="SalesViewChickenClick" ClickMode="Press" Grid.Column="2" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources> Chicken
+                                </Button>
+                                <Button x:Name="SalesViewDrinks" Click="SalesViewDrinksClick" ClickMode="Press" Grid.Column="3" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
+                                    <Button.Resources>
+                                        <Style TargetType="Border">
+                                            <Setter Property="CornerRadius" Value="10"/>
+                                        </Style>
+                                    </Button.Resources> Drinks
+                                </Button>
+                            </Grid>
+                            <DataGrid x:Name="MenuItemsGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Row="1" Margin="0,0,30,30">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="SalesAddMenuItem">Add</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Item" Width="*" Binding="{Binding name}"/>
+                                    <DataGridTextColumn Header="Cost" Width="*" Binding="{Binding cost}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                        <Grid x:Name="SalesCouponGrid" Visibility="Hidden" Grid.Column="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"></RowDefinition>
+                                <RowDefinition Height="280"></RowDefinition>
+                                <RowDefinition Height="*"></RowDefinition>
+                                <RowDefinition Height="118"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <TextBlock Text="Available Coupons and Deals" Style="{StaticResource StandardTextStyle}" VerticalAlignment="Top" Margin="0,10"/>
+                            <DataGrid x:Name="SalesCouponDataGrid" AutoGenerateColumns="False" Grid.Row="1" Margin="0,0,30,30">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Description" Width="*" Binding="{Binding description}"/>
+                                    <DataGridTextColumn Header="Discount" Width="*" Binding="{Binding discount}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <DataGrid x:Name="SalesAppliedCouponsDataGrid" Grid.Row="2" Margin="0,0,30,30" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn>
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Click="SalesRemoveAppliedCoupon">Remove</Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="Description" Width="*" Binding="{Binding description}"/>
+                                    <DataGridTextColumn Header="Discount" Width="*" Binding="{Binding discount}"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Rectangle Grid.Column="1" Grid.Row="3" Margin="0,0,30,30" RadiusX="10" RadiusY="10" StrokeThickness="1" Stroke="Black" Fill="RoyalBlue"></Rectangle>
+                            <Button x:Name="SalesApplyCouponsBtn" Click="SalesApplyCouponsClick" ClickMode="Press" Grid.Column="0" Grid.Row="3" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="0,0,0,30"  Background="#FFF96C">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"/>
+                                    </Style>
+                                </Button.Resources> Apply Coupons
+                            </Button>
+                        </Grid>
+                    </Grid>    
+                </TabItem.Content>
+                <!--End Sales Content-->
             </TabItem>
         </TabControl>
     </Grid>

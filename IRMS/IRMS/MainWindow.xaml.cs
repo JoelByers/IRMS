@@ -31,6 +31,8 @@ namespace IRMS
         private static ReservationController reservationController = new ReservationController();
         private static ReservationTimeSlot[] reservationTimeSlots = new ReservationTimeSlot[reservationController.getNumTimeSlots()];
         private static CustomerProfiles customerProfiles = new CustomerProfiles();
+        private static SalesController salesController = new SalesController();
+        private static PromotionController promotionController = new PromotionController();
         public MainWindow()
         {
             InitializeComponent();
@@ -49,7 +51,15 @@ namespace IRMS
                 reservationTimeSlots[i].button.Content = reservationTimeSlots[i].numSeats;
             }
 
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewBeef.Background = brush;
+
             ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(0);
+            SalesItemsGrid.ItemsSource = salesController.getCurrentSaleList();
+            MenuItemsGrid.ItemsSource = salesController.getBeefItemsList();
+            SalesCouponDataGrid.ItemsSource = promotionController.getCouponList();
+            SalesAppliedCouponsDataGrid.ItemsSource = salesController.getAppliedCoupons();
         }
 
         public void OnMenuClick(object sender, RoutedEventArgs e)
@@ -57,12 +67,12 @@ namespace IRMS
             if(sidebar.Visibility == System.Windows.Visibility.Collapsed)
             {
                 sidebar.Visibility = System.Windows.Visibility.Visible;
-                tabs.SetValue(Grid.ColumnProperty, 1);
+                Tabs.SetValue(Grid.ColumnProperty, 1);
             }
             else
             {
                 sidebar.Visibility = System.Windows.Visibility.Collapsed;
-                tabs.SetValue(Grid.ColumnProperty, 0);
+                Tabs.SetValue(Grid.ColumnProperty, 0);
             }
         }
 
@@ -78,6 +88,7 @@ namespace IRMS
             if(reservationTab.Visibility == System.Windows.Visibility.Collapsed)
             {
                 reservationTab.Visibility = System.Windows.Visibility.Visible;
+                Tabs.SelectedItem = reservationTab;
             }
             else
             {
@@ -338,6 +349,141 @@ namespace IRMS
         {
             ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(6);
             RsvtnTimeIndicator.SetValue(Grid.ColumnProperty, 13);
+        }
+
+        public void MenuSalesBtn(object sender, RoutedEventArgs e)
+        {
+            if (SalesTab.Visibility == System.Windows.Visibility.Collapsed)
+            {
+                SalesTab.Visibility = System.Windows.Visibility.Visible;
+                Tabs.SelectedItem = SalesTab;
+            }
+            else
+            {
+                SalesTab.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+
+        public void SalesViewBeefClick(object sender, RoutedEventArgs e)
+        {
+            MenuItemsGrid.ItemsSource = salesController.getBeefItemsList();
+
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewBeef.Background = brush;
+            SalesViewPork.Background = Brushes.LightGray;
+            SalesViewChicken.Background = Brushes.LightGray;
+            SalesViewDrinks.Background = Brushes.LightGray;
+
+        }
+        public void SalesViewPorkClick(object sender, RoutedEventArgs e)
+        {
+            MenuItemsGrid.ItemsSource = salesController.getPorkItemsList();
+
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewPork.Background = brush;
+            SalesViewBeef.Background = Brushes.LightGray;
+            SalesViewChicken.Background = Brushes.LightGray;
+            SalesViewDrinks.Background = Brushes.LightGray;
+        }
+        public void SalesViewChickenClick(object sender, RoutedEventArgs e)
+        {
+            MenuItemsGrid.ItemsSource = salesController.getChickenItemsList();
+
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewChicken.Background = brush;
+            SalesViewPork.Background = Brushes.LightGray;
+            SalesViewBeef.Background = Brushes.LightGray;
+            SalesViewDrinks.Background = Brushes.LightGray;
+        }
+        public void SalesViewDrinksClick(object sender, RoutedEventArgs e)
+        {
+            MenuItemsGrid.ItemsSource = salesController.getDrinkItemsList();
+
+            BrushConverter converter = new System.Windows.Media.BrushConverter();
+            Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+            SalesViewDrinks.Background = brush;
+            SalesViewPork.Background = Brushes.LightGray;
+            SalesViewChicken.Background = Brushes.LightGray;
+            SalesViewBeef.Background = Brushes.LightGray;
+        }
+
+        public void SalesAddMenuItem(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    salesController.addSaleItem((MenuItem)row.Item);
+                    break;
+                }
+            }
+
+            SalesItemsGrid.Items.Refresh();
+            updateSalesCostText();
+        }
+        public void SalesRemoveMenuItem(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    salesController.removeItem((SaleItem)row.Item);
+                    break;
+                }
+            }
+
+            SalesItemsGrid.Items.Refresh();
+            updateSalesCostText();
+        }
+
+        public void SalesViewCouponsClick(object sender, RoutedEventArgs e)
+        {
+            if(SalesMenuGrid.Visibility == System.Windows.Visibility.Visible)
+            {
+                SalesMenuGrid.Visibility = System.Windows.Visibility.Hidden;
+                SalesCouponGrid.Visibility = System.Windows.Visibility.Visible;
+                SalesViewCouponsBtn.Content = "Add Items";
+            }
+            else
+            {
+                SalesMenuGrid.Visibility = System.Windows.Visibility.Visible;
+                SalesCouponGrid.Visibility = System.Windows.Visibility.Hidden;
+                SalesViewCouponsBtn.Content = "View Coupons";
+            }
+        }
+
+        public void SalesApplyCouponsClick(object sender, RoutedEventArgs e)
+        {
+            salesController.addCoupon((Coupon)SalesCouponDataGrid.SelectedItem);
+            updateSalesCostText();
+        }
+
+        public void SalesRemoveAppliedCoupon(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    salesController.removeCoupon((Coupon)row.Item);
+                    break;
+                }
+            }
+
+            updateSalesCostText();
+        }
+
+        private void updateSalesCostText()
+        {
+            SalesTotalTextBlock.Text = salesController.getTotalCost().ToString();
+            SalesTaxTextBlock.Text = salesController.getTotalTax().ToString();
+            SalesDiscountTextBlock.Text = salesController.getTotalDiscount().ToString();
+            SalesInitialCostTextBlock.Text = salesController.getInitialCost().ToString();
         }
     }
 }
