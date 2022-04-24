@@ -447,12 +447,14 @@ namespace IRMS
             {
                 SalesMenuGrid.Visibility = System.Windows.Visibility.Hidden;
                 SalesCouponGrid.Visibility = System.Windows.Visibility.Visible;
+                SalesMakePaymentGrid.Visibility = System.Windows.Visibility.Hidden;
                 SalesViewCouponsBtn.Content = "Add Items";
             }
             else
             {
                 SalesMenuGrid.Visibility = System.Windows.Visibility.Visible;
                 SalesCouponGrid.Visibility = System.Windows.Visibility.Hidden;
+                SalesMakePaymentGrid.Visibility = System.Windows.Visibility.Hidden;
                 SalesViewCouponsBtn.Content = "View Coupons";
             }
         }
@@ -484,6 +486,37 @@ namespace IRMS
             SalesTaxTextBlock.Text = salesController.getTotalTax().ToString();
             SalesDiscountTextBlock.Text = salesController.getTotalDiscount().ToString();
             SalesInitialCostTextBlock.Text = salesController.getInitialCost().ToString();
+        }
+
+        public void SalesEnterPaymentClick(object sender, RoutedEventArgs e)
+        {
+            if(SalesMakePaymentGrid.Visibility == System.Windows.Visibility.Hidden)
+            {
+                SalesMakePaymentGrid.Visibility = System.Windows.Visibility.Visible;
+                SalesCouponGrid.Visibility = System.Windows.Visibility.Hidden;
+                SalesMenuGrid.Visibility = System.Windows.Visibility.Hidden;
+            }
+        }
+        public void SalesCashSaleClick(object sender, RoutedEventArgs e)
+        {
+            if(salesController.getIsCashSale())
+            {
+                salesController.setIsCashSale(false);
+                SalesCashSaleBtn.Background = Brushes.LightGray;
+            }
+            else
+            {
+                salesController.setIsCashSale(true);
+                BrushConverter converter = new System.Windows.Media.BrushConverter();
+                Brush brush = (Brush)converter.ConvertFromString("#FFF96C");
+                SalesCashSaleBtn.Background = brush;
+            }
+        }
+
+        public void SalesSubmitSaleClick(object sender, RoutedEventArgs e)
+        {
+            salesController.resetSale();
+            updateSalesCostText();
         }
     }
 }

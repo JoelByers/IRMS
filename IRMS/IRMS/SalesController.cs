@@ -20,6 +20,7 @@ namespace IRMS
         private decimal totalCost;
         private decimal totalTax;
         private decimal tax;
+        private bool isCashSale;
 
         public SalesController()
         {
@@ -29,6 +30,7 @@ namespace IRMS
             tax = 0.05M;
             totalDiscount = 0;
             discountCost = 0;
+            isCashSale = false;
 
             beefItems.Add(new MenuItem("Beef 1", FoodType.BEEF));
             beefItems.Add(new MenuItem("Beef 2", FoodType.BEEF));
@@ -142,6 +144,20 @@ namespace IRMS
             totalCost = discountCost + totalTax;
         }
 
+        public void resetSale()
+        {
+            totalCost = 0;
+            totalTax = 0;
+            initialCost = 0;
+            tax = 0.05M;
+            totalDiscount = 0;
+            discountCost = 0;
+            isCashSale = false;
+
+            currentSaleItems.Clear();
+            appliedCoupons.Clear();
+        }
+
         public ref ObservableCollection<SaleItem> getCurrentSaleList()
         {
             return ref currentSaleItems;
@@ -190,6 +206,16 @@ namespace IRMS
         public ref ObservableCollection<Coupon> getAppliedCoupons()
         {
             return ref appliedCoupons;
+        }
+
+        public bool getIsCashSale()
+        {
+            return isCashSale;
+        }
+
+        public void setIsCashSale(bool isCash)
+        {
+            isCashSale = isCash;
         }
     }
 }
