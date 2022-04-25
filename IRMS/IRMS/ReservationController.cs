@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Text;
 
 namespace IRMS
 {
     class ReservationController
     {
-        private const int closingTime = 12;
         private const int numTimeSlots = 7;
         private const int numSeats = 100;
         private ObservableCollection<Reservation>[] reservationTable = new ObservableCollection<Reservation>[numTimeSlots];
@@ -17,6 +18,21 @@ namespace IRMS
             for(int i = 0; i < reservationTable.Length; i++)
             {
                 reservationTable[i] = new ObservableCollection<Reservation>();
+                reservationTable[i].CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(tableChangeCallback);
+            }
+        }
+
+        private void tableChangeCallback(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            for(int i = 0; i < e.NewItems.Count; i++)
+            {
+                Reservation res = (Reservation)e.NewItems[i];
+
+                if (timeToIndex(res.expectedTime) != i)
+                {
+                    reservationTable[timeToIndex(res.expectedTime)].Add(new Reservation(res));
+                    reservationTable[i].Remove(res);
+                }
             }
         }
 
@@ -37,14 +53,44 @@ namespace IRMS
             reservationTable[timeToIndex(expectedTime)].Add(new Reservation(name, phoneNumber, expectedTime, lateTime, partySize));
         }
 
-        public void editReservation(int timeIndex,int reservationIndex, string newName, string newPhoneNumber, string newExpectedTime)
+        public void fixReservationTime(Reservation reservation, string newTime)
         {
-            Reservation thisReservation = reservationTable[timeIndex][reservationIndex];
-            thisReservation.name = newName;
-            thisReservation.phoneNumber = newPhoneNumber;
-            thisReservation.expectedTime = newExpectedTime;
+
+            traceReservations();
+            for(int i = 0; i < reservationTable.Length; i++)
+            {
+                foreach(Reservation searchReservation in reservationTable[i])
+                {
+                    if(reservation == searchReservation)
+                    {
+                        Trace.WriteLine("Found " + reservation.expectedTime + " " + newTime);
+                        if(reservation.expectedTime != newTime)
+                        {
+                            Trace.WriteLine("Fix");
+                            reservationTable[i].Remove(reservation);
+                            reservationTable[timeToIndex(reservation.expectedTime)].Add(reservation);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
 
             // TODO figure out late time
+        }
+
+        public void traceReservations()
+        {
+            Trace.WriteLine("Trace:");
+            foreach(ObservableCollection<Reservation> c in reservationTable)
+            {
+                foreach(Reservation r in c)
+                {
+                    Trace.WriteLine(r.expectedTime);
+                }
+            }
         }
 
         public void seatReservation(int timeIndex, int reservationIndex, bool newIsSeated)

@@ -22,5 +22,15 @@ namespace IRMS
             this.partySize = partySize;
             isSeated = false;
         }
+
+        public Reservation(Reservation copyRes)
+        {
+            name = copyRes.name;
+            phoneNumber = copyRes.phoneNumber;
+            expectedTime = copyRes.expectedTime;
+            lateTime = copyRes.lateTime;
+            partySize = copyRes.partySize;
+            isSeated = false;
+        }
     }
 }
