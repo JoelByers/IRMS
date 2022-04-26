@@ -1,4 +1,10 @@
-﻿using System;
+﻿/*  SE 306
+ *  Prestige Worldwide
+ *  
+ *  Description: Reservation Data Type
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Text;
 

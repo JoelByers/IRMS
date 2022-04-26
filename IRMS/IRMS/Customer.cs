@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿/*  SE 306
+ *  Prestige Worldwide
+ *  
+ *  Description: Customer Data Type
+ */
 
 namespace IRMS
 {

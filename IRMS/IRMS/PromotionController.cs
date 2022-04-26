@@ -1,7 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*  SE 306
+ *  Prestige Worldwide
+ *  
+ *  Description: Class for managing promotions
+ */
+
 using System.Collections.ObjectModel;
-using System.Text;
 
 namespace IRMS
 {

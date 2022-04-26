@@ -1,8 +1,13 @@
-﻿using System;
+﻿/*  SE 306
+ *  Prestige Worldwide
+ *  
+ *  Description: Sales Controller class for creating and managing sales
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 
 namespace IRMS
 {

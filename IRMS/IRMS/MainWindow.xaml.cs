@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/*  SE 306
+ *  Prestige Worldwide
+ *  
+ *  Description: Main Window GUI control
+ */
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 
 namespace IRMS
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         struct ReservationTimeSlot
@@ -139,7 +131,7 @@ namespace IRMS
                     RsvtnTextBlockInvalidMessage.Visibility = System.Windows.Visibility.Hidden;
 
                     Reservation newReservation = new Reservation(name, phoneNumber, expectedTime, expectedTime, partySize);
-                    newReservation.lateTime = getLateTime(newReservation);
+                    newReservation.lateTime = reservationController.getLateTime(newReservation, customerProfiles);
                     Trace.WriteLine(newReservation.lateTime);
                     reservationController.createReservation(newReservation);
                     reservationTimeSlots[reservationController.timeToIndex(expectedTime)].numSeats -= 4 * (int)Math.Ceiling((double)partySize / 4.0);
@@ -247,52 +239,6 @@ namespace IRMS
             return isValid;
         }
 
-        private string getLateTime(Reservation reservation)
-        {
-            Customer thisCustomer = customerProfiles.getCustomer(reservation.name);
-            Rank thisRank;
-            int thisTimeHour;
-            int thisTimeMin = Int32.Parse(reservation.expectedTime.Substring(reservation.expectedTime.Length - 2, 2));
-
-            if (reservation.expectedTime.ToCharArray()[1] == ':')
-            {
-                thisTimeHour = Int32.Parse(reservation.expectedTime.Substring(0,1));
-            }
-            else
-            {
-                thisTimeHour = Int32.Parse(reservation.expectedTime.Substring(0, 2));
-            }
-
-            if(thisCustomer == null)
-            {
-                thisRank = Rank.BRONZE;
-            }
-            else
-            {
-                thisRank = thisCustomer.getRank();
-            }
-
-            Trace.WriteLine(thisRank);
-
-            switch(thisRank)
-            {
-                case Rank.SILVER: thisTimeMin += 5;
-                    break;
-                case Rank.GOLD: thisTimeMin += 15;
-                    break;
-                case Rank.PREMIUM: thisTimeMin += 20;
-                    break;
-            }
-
-            if(thisTimeMin >= 60)
-            {
-                thisTimeMin -= 60;
-                thisTimeHour++;
-            }
-
-            return thisTimeHour.ToString() + ":" + thisTimeMin.ToString("00");
-        }
-
         public void RsvtnBtnNewClick (object sender, RoutedEventArgs e)
         {
             RsvtnNewGrid.Visibility = System.Windows.Visibility.Visible;
@@ -349,6 +295,51 @@ namespace IRMS
         {
             ReservationGrid.ItemsSource = reservationController.getReservationsAtTime(6);
             RsvtnTimeIndicator.SetValue(Grid.ColumnProperty, 13);
+        }
+
+        public void ReservationRemoveReservation(object sender, RoutedEventArgs e)
+        {
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    reservationTimeSlots[reservationController.timeToIndex(((Reservation)row.Item).expectedTime)]
+                        .numSeats += 4 * (int)Math.Ceiling((double)((Reservation)row.Item).partySize / 4.0);
+
+                    reservationTimeSlots[reservationController.timeToIndex(((Reservation)row.Item).expectedTime)]
+                        .button.Content = reservationTimeSlots[reservationController.timeToIndex(((Reservation)row.Item)
+                        .expectedTime)].numSeats.ToString();
+
+                    reservationController.removeReservation((Reservation)row.Item);
+                    break;
+                }
+            }
+        }
+
+        public void ReservationCellChanged(object sender, EventArgs e)
+        {
+            if(ReservationGrid.SelectedItems != null)
+            {
+                //Reservation r = (Reservation)ReservationGrid.SelectedItems.GetType;
+                Trace.WriteLine("this " + ReservationGrid.SelectedItems.GetType() + " " + ReservationGrid.SelectedItems.Count);
+                foreach(var c in ReservationGrid.SelectedItems)
+                {
+                    Trace.WriteLine("a " + c.GetType());
+                }
+            }
+
+            for (var vis = sender as Visual; vis != null; vis = VisualTreeHelper.GetParent(vis) as Visual)
+            {
+                Trace.WriteLine(vis.GetType());
+                if (vis is DataGridRow)
+                {
+                    var row = (DataGridRow)vis;
+                    Trace.WriteLine("Changed " + ((Reservation)row.Item).expectedTime);
+
+                    break;
+                }
+            }
         }
 
         public void MenuSalesBtn(object sender, RoutedEventArgs e)
@@ -517,6 +508,11 @@ namespace IRMS
         {
             salesController.resetSale();
             updateSalesCostText();
+            SalesCardNumberTextBox.Text = "";
+            SalesCardDateTextBox.Text = "";
+            SalesCardNaemTextBox.Text = "";
+            SalesCardCVVTextBox.Text = "";
+            SalesPartyTextBox.Text = "";
         }
     }
 }

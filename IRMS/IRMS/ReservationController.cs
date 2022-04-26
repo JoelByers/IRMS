@@ -1,9 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/*  SE 306
+ *  Prestige Worldwide
+ *  
+ *  Description: Reservation Class, for creating and managing reservations
+ */
+
+using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Diagnostics;
-using System.Text;
 
 namespace IRMS
 {
@@ -18,22 +21,54 @@ namespace IRMS
             for(int i = 0; i < reservationTable.Length; i++)
             {
                 reservationTable[i] = new ObservableCollection<Reservation>();
-                reservationTable[i].CollectionChanged += new System.Collections.Specialized.NotifyCollectionChangedEventHandler(tableChangeCallback);
             }
         }
 
-        private void tableChangeCallback(object sender, NotifyCollectionChangedEventArgs e)
+        public string getLateTime(Reservation reservation, CustomerProfiles customerProfiles)
         {
-            for(int i = 0; i < e.NewItems.Count; i++)
-            {
-                Reservation res = (Reservation)e.NewItems[i];
+            Customer thisCustomer = customerProfiles.getCustomer(reservation.name);
+            Rank thisRank;
+            int thisTimeHour;
+            int thisTimeMin = Int32.Parse(reservation.expectedTime.Substring(reservation.expectedTime.Length - 2, 2));
 
-                if (timeToIndex(res.expectedTime) != i)
-                {
-                    reservationTable[timeToIndex(res.expectedTime)].Add(new Reservation(res));
-                    reservationTable[i].Remove(res);
-                }
+            if (reservation.expectedTime.ToCharArray()[1] == ':')
+            {
+                thisTimeHour = Int32.Parse(reservation.expectedTime.Substring(0, 1));
             }
+            else
+            {
+                thisTimeHour = Int32.Parse(reservation.expectedTime.Substring(0, 2));
+            }
+
+            if (thisCustomer == null)
+            {
+                thisRank = Rank.BRONZE;
+            }
+            else
+            {
+                thisRank = thisCustomer.getRank();
+            }
+
+            switch (thisRank)
+            {
+                case Rank.SILVER:
+                    thisTimeMin += 5;
+                    break;
+                case Rank.GOLD:
+                    thisTimeMin += 15;
+                    break;
+                case Rank.PREMIUM:
+                    thisTimeMin += 20;
+                    break;
+            }
+
+            if (thisTimeMin >= 60)
+            {
+                thisTimeMin -= 60;
+                thisTimeHour++;
+            }
+
+            return thisTimeHour.ToString() + ":" + thisTimeMin.ToString("00");
         }
 
         public Reservation getReservationAt(int timeIndex, int reservationIndex)
@@ -53,6 +88,18 @@ namespace IRMS
             reservationTable[timeToIndex(expectedTime)].Add(new Reservation(name, phoneNumber, expectedTime, lateTime, partySize));
         }
 
+        public void removeReservation(Reservation removeReservation)
+        {
+            foreach(ObservableCollection<Reservation> timeSlot in reservationTable)
+            {
+                if(timeSlot.Contains(removeReservation))
+                {
+                    timeSlot.Remove(removeReservation);
+                    break;
+                }
+            }
+        }
+
         public void fixReservationTime(Reservation reservation, string newTime)
         {
 
@@ -67,8 +114,8 @@ namespace IRMS
                         if(reservation.expectedTime != newTime)
                         {
                             Trace.WriteLine("Fix");
-                            reservationTable[i].Remove(reservation);
-                            reservationTable[timeToIndex(reservation.expectedTime)].Add(reservation);
+                            //reservationTable[i].Remove(reservation);
+                            //reservationTable[timeToIndex(reservation.expectedTime)].Add(reservation);
                         }
                         else
                         {

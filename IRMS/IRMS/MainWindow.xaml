@@ -1,4 +1,6 @@
-﻿<Window x:Class="IRMS.MainWindow"
+﻿<!--SE 306 Prestige Worldwide IRMS-->
+<!--Description: GUI For Main Window-->
+    <Window x:Class="IRMS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -231,8 +233,15 @@
                             </Grid>
                             <!--Displaying Reservations-->
                             <ScrollViewer x:Name="ReservationScrollViewer" Grid.Row="1" VerticalScrollBarVisibility="Visible" Grid.RowSpan="2">
-                                <DataGrid x:Name="ReservationGrid" ItemsSource="{Binding}" AutoGenerateColumns="False">
+                                <DataGrid x:Name="ReservationGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" CurrentCellChanged="ReservationCellChanged">
                                     <DataGrid.Columns>
+                                        <DataGridTemplateColumn>
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <Button Click="ReservationRemoveReservation">Remove</Button>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
                                         <DataGridCheckBoxColumn Header="Seated" Width="50" Binding="{Binding isSeated}"/>
                                         <DataGridTextColumn Header="Name" Width="200" Binding="{Binding name}"/>
                                         <DataGridTextColumn Header="Party Size" Width="200" Binding="{Binding partySize}"/>
@@ -255,6 +264,7 @@
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
+                    <!--Sales Current Sale Info-->
                         <Grid Grid.Column="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100"></RowDefinition>
@@ -267,6 +277,7 @@
                             </Grid.RowDefinitions>
                             <TextBlock Style="{StaticResource StandardTextStyle}" Text="Party Name" HorizontalAlignment="Left" Grid.Row="0" Margin="30,10"></TextBlock>
                             <TextBox x:Name="SalesPartyTextBox" Grid.Row="0" Height="30" FontSize="20" Width="300" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="30" Background="LightGray"></TextBox>
+                        <!--Sales Order Items Display-->
                             <DataGrid x:Name="SalesItemsGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Row="1" Margin="30,0" >
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn>
@@ -281,6 +292,7 @@
                                     <DataGridTextColumn Header="Cost" Width="*" Binding="{Binding totalCost}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
+                        <!--Sales Cost Info-->
                             <TextBlock Text="Cost:" Style="{StaticResource StandardTextStyle}" Grid.Row="2" Grid.Column="0" Margin="30,10"/>
                             <TextBlock x:Name="SalesInitialCostTextBlock" Text="0" Style="{StaticResource StandardTextStyle}" Grid.Row="2" Grid.Column="0" Margin="140,10"/>
                             <TextBlock Text="Discount:" Style="{StaticResource StandardTextStyle}" Grid.Row="3" Grid.Column="0" Margin="30,10"/>
@@ -290,6 +302,7 @@
                             <TextBlock Text="Total:" Style="{StaticResource StandardTextStyle}" Grid.Row="5" Grid.Column="0" Margin="30,10"/>
                             <TextBlock x:Name="SalesTotalTextBlock" Text="0" Style="{StaticResource StandardTextStyle}" Grid.Row="5" Grid.Column="0" Margin="140,10"/>
                             <Rectangle Grid.Column="0" Grid.Row="6" Margin="30,0,30,30" RadiusX="10" RadiusY="10" StrokeThickness="1" Stroke="Black" Fill="RoyalBlue"></Rectangle>
+                        <!--Sales Left Bottom Buttons-->    
                             <Grid Grid.Row="6" HorizontalAlignment="Center">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="200"></ColumnDefinition>
@@ -311,6 +324,7 @@
                                 </Button>
                             </Grid>
                         </Grid>
+                    <!--Sales Menu-->
                         <Grid x:Name="SalesMenuGrid" Grid.Column="1">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="100"></RowDefinition>
@@ -323,6 +337,7 @@
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
+                            <!--Menu Items Buttons-->
                                 <Button x:Name="SalesViewBeef" Click="SalesViewBeefClick" ClickMode="Press" Grid.Column="0" Grid.Row="0" Width="100" Height="50" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGray">
                                     <Button.Resources>
                                         <Style TargetType="Border">
@@ -352,6 +367,7 @@
                                     </Button.Resources> Drinks
                                 </Button>
                             </Grid>
+                        <!--Menu Items Grid-->
                             <DataGrid x:Name="MenuItemsGrid" ItemsSource="{Binding}" AutoGenerateColumns="False" Grid.Row="1" Margin="0,0,30,30">
                                 <DataGrid.Columns>
                                     <DataGridTemplateColumn>
@@ -366,6 +382,7 @@
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
+                    <!--Sales Coupons-->
                         <Grid x:Name="SalesCouponGrid" Visibility="Hidden" Grid.Column="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -377,6 +394,7 @@
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="118"></RowDefinition>
                             </Grid.RowDefinitions>
+                        <!--Available Coupons Display-->
                             <TextBlock Text="Available Coupons and Deals" Style="{StaticResource StandardTextStyle}" VerticalAlignment="Top" Margin="0,10"/>
                             <DataGrid x:Name="SalesCouponDataGrid" AutoGenerateColumns="False" Grid.Row="1" Margin="0,0,30,10">
                                 <DataGrid.Columns>
@@ -384,6 +402,7 @@
                                     <DataGridTextColumn Header="Discount" Width="*" Binding="{Binding discount}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
+                        <!--Applied Coupons Display-->
                             <TextBlock Text="Applied Coupons" Grid.Row="2" Style="{StaticResource StandardTextStyle}" VerticalAlignment="Top"/>
                             <DataGrid x:Name="SalesAppliedCouponsDataGrid" Grid.Row="3" Margin="0,0,30,30" AutoGenerateColumns="False">
                                 <DataGrid.Columns>
@@ -407,6 +426,7 @@
                                 </Button.Resources> Apply Coupons
                             </Button>
                         </Grid>
+                    <!--Sales Payment-->
                         <Grid x:Name="SalesMakePaymentGrid" Grid.Column="1" Visibility="Hidden">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*"></RowDefinition>
@@ -423,6 +443,7 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
+                            <!--Payment Info Textboxes-->
                                 <TextBlock Text="Card Number" Grid.Row="0" Grid.Column="0" Style="{StaticResource StandardTextStyle}" VerticalAlignment="Center"/>
                                 <TextBox x:Name="SalesCardNumberTextBox" Grid.Column="1" Grid.Row="0" Height="30" FontSize="20" Width="300" HorizontalAlignment="Left" Background="LightGray"/>
                                 <TextBlock Text="Expiration Date" Grid.Row="1" Grid.Column="0" Style="{StaticResource StandardTextStyle}" VerticalAlignment="Center"/>
@@ -432,6 +453,7 @@
                                 <TextBlock Text="CVV" Grid.Row="3" Grid.Column="0" Style="{StaticResource StandardTextStyle}" VerticalAlignment="Center"/>
                                 <TextBox x:Name="SalesCardCVVTextBox" Grid.Column="1" Grid.Row="3" Height="30" FontSize="20" Width="300" HorizontalAlignment="Left" Background="LightGray"/>
                             </Grid>
+                        <!--Sales Payment Buttons-->
                             <Rectangle Grid.Column="1" Grid.Row="4" Margin="0,0,30,30" RadiusX="10" RadiusY="10" StrokeThickness="1" Stroke="Black" Fill="RoyalBlue"></Rectangle>
                             <Grid Grid.Row="5" Width="400">
                                 <Grid.ColumnDefinitions>

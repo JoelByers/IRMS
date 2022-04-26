@@ -1,7 +1,10 @@
-﻿using System;
+﻿/*  SE 306
+ *  Prestige Worldwide
+ *  
+ *  Description: Class for creating and managing customer profiles
+ */
+
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
 
 namespace IRMS
 {
